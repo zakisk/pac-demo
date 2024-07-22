@@ -28,7 +28,7 @@ metadata:
     pipelinesascode.tekton.dev/max-keep-runs: "5"
 spec:
   timeouts:
-    pipeline: "0h0m10s"
+    pipeline: "0h30m0s"
     tasks: "0h0m5s"
     finally: "0h0m5s"
   params:
