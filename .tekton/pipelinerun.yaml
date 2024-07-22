@@ -27,6 +27,10 @@ metadata:
     # how many runs we want to keep attached to this event
     pipelinesascode.tekton.dev/max-keep-runs: "5"
 spec:
+  timeouts:
+    pipeline: "0h2m0s"
+    tasks: "0h5m0s"
+    finally: "0h0m0s"
   params:
     # The variable with brackets are special to Pipelines as Code
     # They will automatically be expanded with the events from Github.
