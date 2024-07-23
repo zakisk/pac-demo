@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-const unused = `unusedstr`
+const unused = "unusedstr"
 
 func main() {
 	fmt.Println("Hello world")
