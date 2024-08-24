@@ -81,3 +81,7 @@ spec:
     - name: basic-auth
       secret:
         secretName: "{{ git_auth_secret }}"
+  timeouts:
+    pipeline: "0h4m0s"
+    tasks: "0h5m0s"
+    finally: "0h1m0s"
