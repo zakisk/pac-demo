@@ -1,0 +1,19 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: "pipelinerun-max-keep-run-1-fvck"
+  annotations:
+    pipelinesascode.tekton.dev/target-namespace: "pac-e2e-ns-5xx7r"
+    pipelinesascode.tekton.dev/on-target-branch: "[main]"
+    pipelinesascode.tekton.dev/on-event: "[pull_request]"
+    pipelinesascode.tekton.dev/max-keep-runs: "1"
+spec:
+  pipelineSpec:
+    tasks:
+      - name: task
+        taskSpec:
+          steps:
+            - name: task
+              image: registry.access.redhat.com/ubi9/ubi-micro
+              command: ["/bin/echo", "HELLOMOTO"]
