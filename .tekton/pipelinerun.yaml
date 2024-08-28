@@ -30,7 +30,6 @@ spec:
   pipelineSpec:
     workspaces:
       - name: source
-      - name: basic-auth
     tasks:
       - name: fetch-repository
         taskRef:
