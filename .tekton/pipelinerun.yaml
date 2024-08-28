@@ -27,7 +27,6 @@ metadata:
     # how many runs we want to keep attached to this event
     pipelinesascode.tekton.dev/max-keep-runs: "5"
 spec:
-  params:
   pipelineSpec:
     params:
       - name: repo_url
