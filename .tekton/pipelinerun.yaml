@@ -7,7 +7,7 @@ metadata:
     # pipelinesascode.tekton.dev/on-event: "[pull_request, push]"
     # pipelinesascode.tekton.dev/on-target-branch: "[refs/tags/1.*]"
     pipelinesascode.tekton.dev/on-cel-expression: |
-      (event == "pull_request" || event == "push") && target_branch.matches(".*v1.*")
+      event == "pull_request" && source_branch.matches(".*feat/.*")
     pipelinesascode.tekton.dev/max-keep-runs: "5"
 spec:
   params:
