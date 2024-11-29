@@ -2,7 +2,7 @@
 apiVersion: tekton.dev/v1
 kind: PipelineRun
 metadata:
-  name: pr-first
+  name: pr-third
   annotations:
     pipelinesascode.tekton.dev/on-event: "[pull_request]"
     pipelinesascode.tekton.dev/on-target-branch: "[main]"
@@ -21,4 +21,4 @@ spec:
               command: ["sleep", "30s"]
             - name: step-2
               image: registry.access.redhat.com/ubi9/ubi-micro
-              command: ["/bin/echo", "I am first PipelineRun"]
+              command: ["/bin/echo", "I am third PipelineRun"]
