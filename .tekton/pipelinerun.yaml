@@ -2,9 +2,9 @@
 apiVersion: tekton.dev/v1
 kind: PipelineRun
 metadata:
-  name: pac-demo-pull-request
+  generateName: pac-demo-pull-request-
   annotations:
-    pipelinesascode.tekton.dev/on-event: "[pull_request, push]"
+    pipelinesascode.tekton.dev/on-event: "[pull_request, push, incoming]"
     pipelinesascode.tekton.dev/on-target-branch: "[main]"
     pipelinesascode.tekton.dev/task: "git-clone"
     pipelinesascode.tekton.dev/max-keep-runs: "5"
