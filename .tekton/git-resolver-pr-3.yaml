@@ -1,0 +1,50 @@
+---
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  name: git-resolver-pr-3
+  annotations:
+    pipelinesascode.tekton.dev/on-event: "[pull_request]"
+    pipelinesascode.tekton.dev/on-target-branch: "[main]"
+    pipelinesascode.tekton.dev/max-keep-runs: "5"
+spec:
+  pipelineSpec:
+    workspaces:
+      - name: source
+      - name: basic-auth
+    tasks:
+      - name: git-clone
+        taskRef:
+          resolver: git
+          params:
+          - name: url
+            value: https://github.com/zakisk/pac-demo.git
+          - name:  org
+            value: zakisk
+          - name: pathInRepo
+            value: tasks/git-clone.yaml
+          - name: revision
+            value: main
+        workspaces:
+          - name: output
+            workspace: source
+          - name: basic-auth
+            workspace: basic-auth
+        params:
+          - name: url
+            value: https://github.com/zakisk/pac-demo.git
+
+  workspaces:
+    - name: source
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 1Gi
+    # This workspace will inject secret to help the git-clone task to be able to
+    # checkout the private repositories
+    - name: basic-auth
+      secret:
+        secretName: "{{ git_auth_secret }}"
