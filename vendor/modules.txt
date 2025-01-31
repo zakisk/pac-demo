@@ -1,4 +1,4 @@
-# github.com/drone/go-scm v1.39.1
+# github.com/drone/go-scm v1.39.0
 ## explicit; go 1.13
 github.com/drone/go-scm/scm
 github.com/drone/go-scm/scm/driver/internal/hmac

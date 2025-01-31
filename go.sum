@@ -1,5 +1,5 @@
-github.com/drone/go-scm v1.39.1 h1:rIwnUhJ1YkwHtNEKp1i/jAwDonstTLZtE7LGCE2sQUU=
-github.com/drone/go-scm v1.39.1/go.mod h1:DFIJJjhMj0TSXPz+0ni4nyZ9gtTtC40Vh/TGRugtyWw=
+github.com/drone/go-scm v1.39.0 h1:HVUZxEbQhrKwHgFrw4VzdEvrAL6GwSEWbM+mot6Uzvs=
+github.com/drone/go-scm v1.39.0/go.mod h1:DFIJJjhMj0TSXPz+0ni4nyZ9gtTtC40Vh/TGRugtyWw=
 github.com/google/go-cmp v0.2.0 h1:+dTQ8DZQJz0Mb/HjFlkptS1FeQ4cWSnN941F8aEG4SQ=
 github.com/google/go-cmp v0.2.0/go.mod h1:oXzfMopK8JAjlY9xF4vHSVASa0yLyX7SntLO5aqRK0M=
 github.com/h2non/gock v1.0.9 h1:17gCehSo8ZOgEsFKpQgqHiR7VLyjxdAG3lkhVvO9QZU=
