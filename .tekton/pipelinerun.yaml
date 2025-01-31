@@ -4,9 +4,10 @@ kind: PipelineRun
 metadata:
   generateName: pac-demo-pull-request-
   annotations:
-    pipelinesascode.tekton.dev/on-event: "[push, incoming]"
-    pipelinesascode.tekton.dev/on-target-branch: "[main]"
+    # pipelinesascode.tekton.dev/on-event: "[push, incoming]"
+    # pipelinesascode.tekton.dev/on-target-branch: "[main]"
     pipelinesascode.tekton.dev/task: "git-clone"
+    pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch == "main" && (".tekton/pipelinerun.yaml".pathChanged() || "main.go".pathChanged() || "go.{mod,sum}".pathChanged())
     pipelinesascode.tekton.dev/max-keep-runs: "5"
 spec:
   params:
