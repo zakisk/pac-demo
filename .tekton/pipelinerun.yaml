@@ -12,7 +12,7 @@ metadata:
 spec:
   params:
     # The variable with brackets are special to Pipelines as Code
-    # They will automatically be expanded with the events from Github.
+    # They will automatically be expanded with the events.
     - name: repo_url
       value: "{{ repo_url }}"
     - name: revision
