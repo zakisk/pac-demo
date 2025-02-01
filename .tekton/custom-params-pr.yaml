@@ -1,0 +1,23 @@
+---
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  name: custom-params-pr
+  annotations:
+    # pipelinesascode.tekton.dev/on-event: "[push, incoming]"
+    # pipelinesascode.tekton.dev/on-target-branch: "[main]"
+    pipelinesascode.tekton.dev/task: "git-clone"
+    pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch.matches("refs/tags/v.*")
+    pipelinesascode.tekton.dev/max-keep-runs: "5"
+spec:
+  pipelineSpec:
+    tasks:
+      - name: task
+        displayName: "The Task name is Task"
+        taskSpec:
+          steps:
+            - name: task
+              image: alpine:latest
+              script: |
+                #!/bin/sh
+                echo "{{ image-expires-after }}"
