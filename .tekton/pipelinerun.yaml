@@ -49,7 +49,6 @@ spec:
             requests:
               storage: 1Gi
     # This workspace will inject secret to help the git-clone task to be able to
-    # checkout the private repositories
     - name: basic-auth
       secret:
         secretName: "{{ git_auth_secret }}"
