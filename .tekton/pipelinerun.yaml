@@ -4,51 +4,28 @@ kind: PipelineRun
 metadata:
   generateName: pac-demo-pull-request-
   annotations:
-    # pipelinesascode.tekton.dev/on-event: "[push, incoming]"
-    # pipelinesascode.tekton.dev/on-target-branch: "[main]"
-    pipelinesascode.tekton.dev/task: "git-clone"
-    pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch == "main" && (".tekton/pipelinerun.yaml".pathChanged() || "main.go".pathChanged() || "go.{mod,sum}".pathChanged())
-    pipelinesascode.tekton.dev/max-keep-runs: "5"
+    pipelinesascode.tekton.dev/on-event: "[pull_request]"
+    pipelinesascode.tekton.dev/on-target-branch: "[main]"
+    pipelinesascode.tekton.dev/on-label: "[bug]"
+    # pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch == "main" && (".tekton/pipelinerun.yaml".pathChanged() || "main.go".pathChanged() || "go.{mod,sum}".pathChanged())
 spec:
   params:
-    # The variable with brackets are special to Pipelines as Code
-    # They will automatically be expanded with the events by git provider.
-    - name: repo_url
-      value: "{{ repo_url }}"
-    - name: revision
-      value: "{{ revision }}"
+    - name: body
+      value: |
+        {{ body }}
   pipelineSpec:
     params:
-      - name: repo_url
-      - name: revision
-    workspaces:
-      - name: source
-      - name: basic-auth
+      - name: body
     tasks:
-      - name: fetch-repository
-        taskRef:
-          name: git-clone
-        workspaces:
-          - name: output
-            workspace: source
-          - name: basic-auth
-            workspace: basic-auth
-        params:
-          - name: url
-            value: $(params.repo_url)
-          - name: revision
-            value: $(params.revision)
-
-  workspaces:
-    - name: source
-      volumeClaimTemplate:
-        spec:
-          accessModes:
-            - ReadWriteOnce
-          resources:
-            requests:
-              storage: 1Gi
-    # This workspace will inject secret to help the git-clone task to be able to
-    - name: basic-auth
-      secret:
-        secretName: "{{ git_auth_secret }}"
+      - name: noop-task
+        displayName: Task with no effect
+        taskSpec:
+          steps:
+            - name: noop-task
+              image: registry.access.redhat.com/ubi9/ubi-micro
+              script: |
+                echo "Labels on PR: "
+                for i in $(echo -e "{{ labels }}");do
+                  echo $i
+                done
+                exit 0
