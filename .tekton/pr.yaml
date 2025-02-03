@@ -1,0 +1,19 @@
+---
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  name: prow-commands
+  annotations:
+    # pipelinesascode.tekton.dev/on-comment: "^/(help|(assign|unassign|label|unlabel)[ ].*)"
+    pipelinesascode.tekton.dev/max-keep-runs: "5"
+    pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch == "main"
+spec:
+  pipelineSpec:
+    tasks:
+      - name: manage-pr
+        displayName: Manage PR Assignments & Labels
+        taskSpec:
+          steps:
+            - name: manage-pr
+              image: registry.access.redhat.com/ubi9/ubi-micro
+              command: ["/bin/echo", "Hello Tekton!"]
