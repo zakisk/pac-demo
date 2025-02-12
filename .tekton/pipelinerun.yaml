@@ -1,31 +1,19 @@
 ---
-apiVersion: tekton.dev/v1
+apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
-  generateName: cel-expr-pr-
+  name: "pipelinerun-dsqd"
   annotations:
-    # pipelinesascode.tekton.dev/on-event: "[pull_request]"
-    # pipelinesascode.tekton.dev/on-target-branch: "[main]"
-    pipelinesascode.tekton.dev/on-label: "[bug]"
-    pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch == "main" && (".tekton/pipelinerun.yaml".pathChanged() || "main.go".pathChanged() || "go.{mod,sum}".pathChanged())
+    pipelinesascode.tekton.dev/target-namespace: "pac-e2e-ns-btlwz"
+    pipelinesascode.tekton.dev/on-target-branch: "[main]"
+    pipelinesascode.tekton.dev/on-event: "[pull_request]"
 spec:
-  params:
-    - name: body
-      value: |
-        {{ body }}
   pipelineSpec:
-    params:
-      - name: body
     tasks:
-      - name: noop-task
-        displayName: Task with no effect
+      - name: task
+        displayName: "The Task name is Task"
         taskSpec:
           steps:
-            - name: noop-task
+            - name: task
               image: registry.access.redhat.com/ubi9/ubi-micro
-              script: |
-                echo "Labels on PR: "
-                for i in $(echo -e "{{ labels }}");do
-                  echo $i
-                done
-                exit 0
+              command: ["/bin/echo", "HELLOMOTO"]
