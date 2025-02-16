@@ -4,8 +4,8 @@ kind: PipelineRun
 metadata:
   name: "on-comment"
   annotations:
-    # pipelinesascode.tekton.dev/target-namespace: "pac-e2e-push-6xk8l"
-    pipelinesascode.tekton.dev/on-comment: "^/test$"
+    pipelinesascode.tekton.dev/target-namespace: "pac-e2e-push-bdqmn"
+    pipelinesascode.tekton.dev/on-comment: "^/hello-world"
 spec:
   pipelineSpec:
     tasks:
@@ -21,7 +21,6 @@ spec:
                 {{ trigger_comment }}
                 EOF
                 echo "The event is {{ event_type }}"
-                echo "The revision is {{ revision }}"
                 echo "The custom1 value is {{ custom1 }}"
                 echo "The custom2 value is {{ custom2 }}"
                 echo "The custom3 value is {{ custom3 }}"
