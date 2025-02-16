@@ -4,7 +4,7 @@ kind: PipelineRun
 metadata:
   name: "on-comment"
   annotations:
-    pipelinesascode.tekton.dev/target-namespace: "pac-e2e-push-bdqmn"
+    pipelinesascode.tekton.dev/target-namespace: "pac-e2e-push-9rltk"
     pipelinesascode.tekton.dev/on-comment: "^/hello-world"
 spec:
   pipelineSpec:
