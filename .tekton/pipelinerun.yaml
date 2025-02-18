@@ -4,10 +4,10 @@ kind: PipelineRun
 metadata:
   generateName: cel-expr-pr-
   annotations:
-    # pipelinesascode.tekton.dev/on-event: "[pull_request]"
-    # pipelinesascode.tekton.dev/on-target-branch: "[main]"
-    pipelinesascode.tekton.dev/on-label: "[bug]"
-    pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch == "main" && (".tekton/pipelinerun.yaml".pathChanged() || "main.go".pathChanged() || "go.{mod,sum}".pathChanged())
+    pipelinesascode.tekton.dev/on-event: "[push]"
+    pipelinesascode.tekton.dev/on-target-branch: "[main]"
+    # pipelinesascode.tekton.dev/on-label: "[bug]"
+    pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch == "main" && body.pusher.name == "zakisk"
 spec:
   params:
     - name: body
