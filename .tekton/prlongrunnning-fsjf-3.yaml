@@ -1,0 +1,22 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: "prlongrunnning-fsjf-3-xyey"
+  annotations:
+    pipelinesascode.tekton.dev/target-namespace: "pac-e2e-ns-g4kql"
+    pipelinesascode.tekton.dev/on-target-branch: "[main]"
+    pipelinesascode.tekton.dev/on-event: "[pull_request]"
+    pipelinesascode.tekton.dev/max-keep-runs: "1"
+spec:
+  pipelineSpec:
+    tasks:
+      - name: task
+        taskSpec:
+          steps:
+            - name: task
+              image: registry.access.redhat.com/ubi9/ubi-micro
+              script: |
+                echo "hello pipeline"
+                sleep 10
+                exit 0
