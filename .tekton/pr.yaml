@@ -6,7 +6,7 @@ metadata:
   annotations:
     # pipelinesascode.tekton.dev/on-comment: "^/(help|(assign|unassign|label|unlabel)[ ].*)"
     pipelinesascode.tekton.dev/max-keep-runs: "5"
-    pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch == "main"
+    pipelinesascode.tekton.dev/on-cel-expression: event == "pull_request" && target_branch == "main"
 spec:
   pipelineSpec:
     tasks:
@@ -14,6 +14,8 @@ spec:
         displayName: Manage PR Assignments & Labels
         taskSpec:
           steps:
-            - name: manage-pr
-              image: registry.access.redhat.com/ubi9/ubi-micro
-              command: ["/bin/echo", "Hello Tekton!"]
+            - name: debug
+              image: registry.access.redhat.com/ubi9:latest
+              script: |
+                #!/usr/bin/bash
+                echo -e 'revision:{{ revision }}'
