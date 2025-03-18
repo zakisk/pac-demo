@@ -4,23 +4,22 @@ kind: PipelineRun
 metadata:
   name: label-err-pr
   annotations:
-    pipelinesascode.tekton.dev/on-cel-expression: |
-      event == "pull_request" && target_branch == "main"
+    # pipelinesascode.tekton.dev/on-event: "[push]"
+    # pipelinesascode.tekton.dev/on-target-branch: "[main]"
+    # pipelinesascode.tekton.dev/on-label: "[bug]"
+    pipelinesascode.tekton.dev/on-cel-expression: event == "pull_request" && target_branch == "main"
 spec:
   params:
-    - name: body
-      value: |
-        {{ body }}
+    - name: url
+      value: 'image-registry.openshift-image-registry.svc:5000/{{target_namespace}}/gslb-app:{{tag}}'
   pipelineSpec:
-    params:
-      - name: body
     tasks:
-      - name: noop-task
-        displayName: Task with no effect
+      - name: task
+        displayName: "The Task name is Task"
         taskSpec:
           steps:
-            - name: noop-task
+            - name: task
               image: registry.access.redhat.com/ubi9/ubi-micro
               script: |
-                echo "Labels on PR: {{ body.action }}"
+                echo "$(params.url)"
                 exit 0
