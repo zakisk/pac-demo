@@ -4,28 +4,10 @@ kind: PipelineRun
 metadata:
   generateName: cel-expr-pr-
   annotations:
-    pipelinesascode.tekton.dev/on-event: "[push]"
-    pipelinesascode.tekton.dev/on-target-branch: "[main]"
+    # pipelinesascode.tekton.dev/on-event: "[push]"
+    # pipelinesascode.tekton.dev/on-target-branch: "[main]"
     # pipelinesascode.tekton.dev/on-label: "[bug]"
-    pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch == "main" && body.pusher.name == "zakisk"
+    pipelinesascode.tekton.dev/on-cel-expression: event == "pull_request" && target_branch == "main"
 spec:
-  params:
-    - name: body
-      value: |
-        {{ body }}
-  pipelineSpec:
-    params:
-      - name: body
-    tasks:
-      - name: noop-task
-        displayName: Task with no effect
-        taskSpec:
-          steps:
-            - name: noop-task
-              image: registry.access.redhat.com/ubi9/ubi-micro
-              script: |
-                echo "Labels on PR: "
-                for i in $(echo -e "{{ labels }}");do
-                  echo $i
-                done
-                exit 0
+  pipelineRef:
+    name: pipeline-ref

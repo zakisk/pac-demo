@@ -1,0 +1,19 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: "pipeline-ref"
+spec:
+  params:
+    - name: repo_url
+      default: "{{ repo_url }}"
+  tasks:
+    - name: task
+      displayName: "The Task name is Task"
+      taskSpec:
+        steps:
+          - name: task
+            image: registry.access.redhat.com/ubi9/ubi-micro
+            script: |
+              echo "$(params.repo_url)"
+              exit 0
