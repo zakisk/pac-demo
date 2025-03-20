@@ -2,12 +2,10 @@
 apiVersion: tekton.dev/v1
 kind: PipelineRun
 metadata:
-  generateName: cel-expr-pr-
+  name: label-err-pr
   annotations:
-    pipelinesascode.tekton.dev/on-event: "[push]"
-    pipelinesascode.tekton.dev/on-target-branch: "[main]"
-    # pipelinesascode.tekton.dev/on-label: "[bug]"
-    pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch == "main" && body.pusher.name == "zakisk"
+    pipelinesascode.tekton.dev/on-cel-expression: |
+      event == "pull_request" && target_branch == "main"
 spec:
   params:
     - name: body
@@ -24,8 +22,5 @@ spec:
             - name: noop-task
               image: registry.access.redhat.com/ubi9/ubi-micro
               script: |
-                echo "Labels on PR: "
-                for i in $(echo -e "{{ labels }}");do
-                  echo $i
-                done
+                echo "Labels on PR: {{ body.action }}"
                 exit 0
