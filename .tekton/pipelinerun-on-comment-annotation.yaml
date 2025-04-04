@@ -4,8 +4,8 @@ kind: PipelineRun
 metadata:
   name: "on-comment"
   annotations:
-    pipelinesascode.tekton.dev/target-namespace: "pac-e2e-push-9rltk"
-    pipelinesascode.tekton.dev/on-comment: "^/hello-world"
+    pipelinesascode.tekton.dev/on-cel-expression: |
+      event == "pull_request" && target_branch == "main"
 spec:
   pipelineSpec:
     tasks:
@@ -16,11 +16,4 @@ spec:
             - name: task
               image: registry.access.redhat.com/ubi9/ubi-micro
               script: |
-                echo "The comment is:"
-                cat <<EOF
-                {{ trigger_comment }}
-                EOF
-                echo "The event is {{ event_type }}"
-                echo "The custom1 value is {{ custom1 }}"
-                echo "The custom2 value is {{ custom2 }}"
-                echo "The custom3 value is {{ custom3 }}"
+                sleep 60s

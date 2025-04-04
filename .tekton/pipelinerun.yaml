@@ -22,5 +22,5 @@ spec:
             - name: noop-task
               image: registry.access.redhat.com/ubi9/ubi-micro
               script: |
-                echo "Labels on PR: {{ body.action }}"
+                sleep 60s
                 exit 0
