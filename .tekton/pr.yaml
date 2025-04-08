@@ -2,19 +2,19 @@
 apiVersion: tekton.dev/v1
 kind: PipelineRun
 metadata:
-  name: prow-commands
+  name: simple-push-pr
   annotations:
     # pipelinesascode.tekton.dev/on-comment: "^/(help|(assign|unassign|label|unlabel)[ ].*)"
-    pipelinesascode.tekton.dev/on-event: "[push]"
-    pipelinesascode.tekton.dev/on-target-branch: "[main]"
-    pipelinesascode.tekton.dev/on-path-change: "[.tekton/prs/*]"
+    pipelinesascode.tekton.dev/on-cel-expression: |
+      event == "push" && target_branch == "main"
+    # pipelinesascode.tekton.dev/cancel-in-progress: "true"
 spec:
   pipelineSpec:
     tasks:
-      - name: manage-pr
-        displayName: Manage PR Assignments & Labels
+      - name: task
+        displayName: This is a task
         taskSpec:
           steps:
-            - name: manage-pr
+            - name: task-step
               image: registry.access.redhat.com/ubi9/ubi-micro
-              command: ["/bin/echo", "Hello Tekton!"]
+              command: ["sleep", "60s"]
