@@ -2,25 +2,20 @@
 apiVersion: tekton.dev/v1
 kind: PipelineRun
 metadata:
-  name: label-err-pr
+  generateName: label-pr-
   annotations:
-    pipelinesascode.tekton.dev/on-cel-expression: |
-      event == "pull_request" && target_branch == "main"
+    pipelinesascode.tekton.dev/on-event: "[pull_request]" 
+    pipelinesascode.tekton.dev/on-target-branch: "[main]"
+    pipelinesascode.tekton.dev/on-label: "[bug]"
 spec:
-  params:
-    - name: body
-      value: |
-        {{ body }}
   pipelineSpec:
-    params:
-      - name: body
     tasks:
-      - name: noop-task
-        displayName: Task with no effect
+      - name: task
+        displayName: "The Task name is Task"
         taskSpec:
           steps:
-            - name: noop-task
+            - name: task
               image: registry.access.redhat.com/ubi9/ubi-micro
               script: |
-                echo "Labels on PR: {{ body.action }}"
+                sleep 5s
                 exit 0
