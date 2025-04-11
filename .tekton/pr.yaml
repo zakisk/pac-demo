@@ -6,9 +6,12 @@ metadata:
   annotations:
     # pipelinesascode.tekton.dev/on-comment: "^/(help|(assign|unassign|label|unlabel)[ ].*)"
     pipelinesascode.tekton.dev/on-cel-expression: |
-      event == "push" && target_branch == "main"
+      event == "pull_request" && target_branch == "main"
     # pipelinesascode.tekton.dev/cancel-in-progress: "true"
 spec:
+  params:
+    - name: url
+      value: 'image-registry.openshift-image-registry.svc:5000/{{target_namespace}}/gslb-app:{{tag}}'
   pipelineSpec:
     tasks:
       - name: task
@@ -18,5 +21,5 @@ spec:
             - name: task-step
               image: registry.access.redhat.com/ubi9/ubi-micro
               script: |
-                echo "{{ git_tag }}"
+                echo "$(params.url)"
                 exit 0  
