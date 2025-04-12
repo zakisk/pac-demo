@@ -6,7 +6,7 @@ metadata:
   annotations:
     # pipelinesascode.tekton.dev/on-comment: "^/(help|(assign|unassign|label|unlabel)[ ].*)"
     pipelinesascode.tekton.dev/on-cel-expression: |
-      event == "push" && target_branch == "main"
+      event == "push"
     # pipelinesascode.tekton.dev/cancel-in-progress: "true"
 spec:
   pipelineSpec:
@@ -17,4 +17,6 @@ spec:
           steps:
             - name: task-step
               image: registry.access.redhat.com/ubi9/ubi-micro
-              command: ["sleep", "60s"]
+              script: |
+                echo "{{ git_tag }}"
+                exit 0  
