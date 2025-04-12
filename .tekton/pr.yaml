@@ -17,4 +17,6 @@ spec:
           steps:
             - name: task-step
               image: registry.access.redhat.com/ubi9/ubi-micro
-              command: ["sleep", "60s"]
+              script: |
+                echo "{{ git_tag }}"
+                exit 0  
