@@ -1,0 +1,20 @@
+---
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  name: pull-pr-2
+  annotations:
+    pipelinesascode.tekton.dev/on-cel-expression: |
+      (event == "pull_request" || event == "push") && target_branch == "main"
+spec:
+  pipelineSpec:
+    tasks:
+      - name: task
+        displayName: This is a task
+        taskSpec:
+          steps:
+            - name: task-step
+              image: registry.access.redhat.com/ubi9/ubi-micro
+              script: |
+                sleep 30s
+                exit 0
