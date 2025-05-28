@@ -2,12 +2,15 @@
 apiVersion: tekton.dev/v1
 kind: PipelineRun
 metadata:
-  name: pull-pr-2
+  name: pull-pr-6
   annotations:
     pipelinesascode.tekton.dev/on-cel-expression: |
       (event == "pull_request" || event == "push") && target_branch == "main"
     # pipelinesascode.tekton.dev/cancel-in-progress: "true"
 spec:
+  params:
+    - name: pull_request_number
+      value: "{{ pull_request_number }}"
   pipelineSpec:
     tasks:
       - name: task
