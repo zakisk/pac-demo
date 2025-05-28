@@ -2,7 +2,7 @@
 apiVersion: tekton.dev/v1
 kind: PipelineRun
 metadata:
-  name: pull-pr-1
+  name: pull-pr-5
   annotations:
     pipelinesascode.tekton.dev/on-cel-expression: |
       (event == "pull_request" || event == "push") && target_branch == "main"
