@@ -2,10 +2,10 @@
 apiVersion: tekton.dev/v1
 kind: PipelineRun
 metadata:
-  name: pull-pr-1
+  name: i-wont-match
   annotations:
-    pipelinesascode.tekton.dev/on-cel-expression: |
-      (event == "pull_request" || event == "push") && target_branch == "main"
+    pipelinesascode.tekton.dev/max-keep-runs: "2"
+    pipelinesascode.tekton.dev/on-label: "[bug, defect]"
 spec:
   pipelineSpec:
     tasks:
@@ -16,5 +16,5 @@ spec:
             - name: task-step
               image: registry.access.redhat.com/ubi9/ubi-micro
               script: |
-                sleep 30s
+                echo "I am pr"
                 exit 0
