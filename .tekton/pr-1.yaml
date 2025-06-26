@@ -7,6 +7,9 @@ metadata:
     pipelinesascode.tekton.dev/on-cel-expression: |
       (event == "pull_request" || event == "push") && target_branch == "main"
 spec:
+  params:
+    - name: pull_request_number
+      value: "{{ body.commits[body.commits.size() - 1].message.matches('!\\\\d+$') ? body.commits[body.commits.size() - 1].message.substring(body.commits[body.commits.size() - 1].message.lastIndexOf('!') + 1) : '' }}"
   pipelineSpec:
     tasks:
       - name: task
@@ -16,5 +19,5 @@ spec:
             - name: task-step
               image: registry.access.redhat.com/ubi9/ubi-micro
               script: |
-                sleep 30s
+                echo "$(params.pull_request_number)"
                 exit 0
