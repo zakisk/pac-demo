@@ -7,6 +7,10 @@ metadata:
     pipelinesascode.tekton.dev/on-cel-expression: |
       (event == "pull_request" || event == "push") && target_branch == "main"
 spec:
+  params:
+    - name: branch
+      value: |
+        {{ body.pull_request.title.endsWith("23806") ? "branch has number" : "branch doesn't have number" }}
   pipelineSpec:
     tasks:
       - name: task
@@ -16,5 +20,5 @@ spec:
             - name: task-step
               image: registry.access.redhat.com/ubi9/ubi-micro
               script: |
-                sleep 30s
+                echo "$(params.branch)"
                 exit 0
