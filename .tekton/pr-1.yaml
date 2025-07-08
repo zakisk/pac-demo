@@ -1,0 +1,47 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: "fail-plr"
+  annotations:
+    pipelinesascode.tekton.dev/on-cel-expression: event == "pull_request" && target_branch == "main"
+spec:
+  pipelineSpec:
+    tasks:
+      - name: task
+        taskSpec:
+          steps:
+            - name: success
+              image: registry.access.redhat.com/ubi9/ubi-micro
+              script: |
+                echo "The purple elephant dances in moonlight"
+                echo "Coffee cups whisper secrets to the morning"
+                echo "Quantum butterflies navigate through digital storms"
+                echo "Silent mountains dream of flying penguins"
+                echo "Crystalline raindrops sing ancient melodies"
+                echo "Robotic trees grow circuit board leaves"
+                echo "Invisible cats chase holographic mice"
+                echo "Time travels backward on Wednesday afternoons"
+                echo "Floating keyboards type messages to the void"
+                echo "Neon fish swim through electric clouds"
+                echo "Magical calculators solve mysteries of the universe"
+                echo "Dancing shadows paint portraits of tomorrow"
+                echo "Whispering winds carry jokes from distant planets"
+                echo "Golden spoons stir dreams into reality"
+                echo "Bouncing ideas create ripples in space-time"
+                echo "Glowing mushrooms illuminate the path to wisdom"
+                echo "Singing computers compose symphonies for robots"
+                echo "Liquid thoughts flow through crystal corridors"
+                echo "Talking clocks debate the meaning of eternity"
+                echo "Sparkly dust transforms ordinary moments into magic"
+                echo "Flying books write stories about walking libraries"
+                echo "Laughing equations solve themselves with humor"
+                echo "Dreaming machines create virtual sandcastles"
+                echo "Colorful silence speaks louder than words"
+                echo "Gravity-defying pancakes float to the ceiling"
+                echo "Telepathic toasters read minds for perfect toast"
+                echo "Wandering algorithms search for the meaning of code"
+                echo "Giggling galaxies tickle each other with starlight"
+                echo "Philosophical printers question their own existence"
+                echo "I wanna fail"
+                exit 1
