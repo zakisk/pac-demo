@@ -1,0 +1,13 @@
+apiVersion: config.openshift.io/v1
+kind: ImageDigestMirrorSet
+metadata:
+  name: example-mirror-set
+spec:
+  imageDigestMirrors
+    - source: quay.io/example
+      mirrors:
+        - mirror.registry.local/example
+        - mirror.backup.local/example
+    - source: docker.io/library
+      mirrors:
+        - mirror.registry.local/docker
