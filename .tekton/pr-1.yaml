@@ -1,0 +1,21 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: "plr-1"
+  annotations:
+    pipelinesascode.tekton.dev/on-cel-expression: event == "pull_request" && target_branch == "main"
+spec:
+  params:
+    - name: anything
+      value: "{{ "" || body.pull_request.user.gravatar_id || body.pull_request.head.sha }}"
+  pipelineSpec:
+    tasks:
+      - name: task
+        taskSpec:
+          steps:
+            - name: step-1
+              image: registry.access.redhat.com/ubi9/ubi-micro
+              script: |
+                echo "$(params.anything)"
+                exit 0
