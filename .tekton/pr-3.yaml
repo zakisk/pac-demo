@@ -1,0 +1,40 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: "plr-3"
+  annotations:
+    pipelinesascode.tekton.dev/on-cel-expression: |
+      event == "push" && target_branch == "test-9132"
+    # pipelinesascode.tekton.dev/cancel-in-progress: "true"
+spec:
+  pipelineSpec:
+    tasks:
+      - name: task
+        taskSpec:
+          steps:
+            - name: extract-commit-hash
+              image: registry.access.redhat.com/ubi9/ubi
+              script: |
+                #!/usr/bin/env python3
+                
+                
+                LAST_COMMIT_TITLE = '{{ body.commits[size(body.commits) - 1].title }}'
+                SINGLE_COMMIT_TITLE = '{{ body.commit.title }}'
+                
+                COMMIT_TITLE = ""
+                TEMPLATE_MARKER = "{{"
+                
+                if LAST_COMMIT_TITLE and TEMPLATE_MARKER not in LAST_COMMIT_TITLE:
+                    COMMIT_TITLE = LAST_COMMIT_TITLE
+               
+                elif SINGLE_COMMIT_TITLE and TEMPLATE_MARKER not in SINGLE_COMMIT_TITLE:
+                    COMMIT_TITLE = SINGLE_COMMIT_TITLE
+                
+                else:
+                    COMMIT_TITLE = "Unknown Commit Title"
+
+                
+                print(f"COMMIT_TITLE={COMMIT_TITLE}")
+                print(f"LAST_COMMIT_TITLE={LAST_COMMIT_TITLE}")
+                print(f"SINGLE_COMMIT_TITLE={SINGLE_COMMIT_TITLE}")
