@@ -1,0 +1,27 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: "pull-pr"
+  annotations:
+    pipelinesascode.tekton.dev/on-target-branch: "[main]"
+    pipelinesascode.tekton.dev/on-event: "[pull_request]"
+spec:
+  pipelineSpec:
+    tasks:
+      - name: stepactions-task
+        taskSpec:
+          steps:
+            - name: fetch-repo-with-stepaction
+              ref:
+                resolver: http
+                params:
+                  - name: url
+                    value: https://raw.githubusercontent.com/zakisk/catalog/refs/heads/migrate-git-init-image-from-gcr-to-ghcr/stepaction/git-clone/0.1/git-clone.yaml
+              params:
+                - name: output-path
+                  value: "/tmp/output"
+                - name: url
+                  value: "https://github.com/openshift-pipelines/pac-demo"
+                - name: revision
+                  value: "main"
+
