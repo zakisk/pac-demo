@@ -1,0 +1,19 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: "pr-vtpt"
+  annotations:
+    pipelinesascode.tekton.dev/target-namespace: "pac-e2e-ns-66vgj"
+    pipelinesascode.tekton.dev/on-target-branch: "[pac-e2e-ns-66vgj]"
+    pipelinesascode.tekton.dev/on-event: "[pull_request]"
+spec:
+  pipelineSpec:
+    tasks:
+      - name: task
+        displayName: "The Task name is Task"
+        taskSpec:
+          steps:
+            - name: task
+              image: registry.access.redhat.com/ubi9/ubi-micro
+              command: ["/bin/echo", "HELLOMOTO"]
