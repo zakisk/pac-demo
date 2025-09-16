@@ -4,7 +4,7 @@ kind: PipelineRun
 metadata:
   name: "push-plr"
   annotations:
-    pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch == "main"
+    pipelinesascode.tekton.dev/on-cel-expression: event == "incoming" && target_branch == "main"
 spec:
   pipelineSpec:
     tasks:
@@ -14,5 +14,5 @@ spec:
             - name: step-1
               image: registry.access.redhat.com/ubi9/ubi-micro
               script: |
-                echo "I am push event but from a pull request, pull_request_number: {{ pull_request_number }}"
+                echo "I am an incoming event"
                 exit 0
