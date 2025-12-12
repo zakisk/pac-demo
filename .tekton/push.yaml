@@ -4,61 +4,15 @@ kind: PipelineRun
 metadata:
   name: "push-plr"
   annotations:
-    pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch.matches("refs/tags/.*")
-    pipelinesascode.tekton.dev/task: "[git-clone]"
+    pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch == "main"
 spec:
-  params:
-    - name: repo_url
-      value: "{{repo_url}}"
-    - name: revision
-      value: "{{revision}}"
   pipelineSpec:
-    params:
-      - name: repo_url
-      - name: revision
-    workspaces:
-      - name: source
     tasks:
-      - name: fetch-repository
-        taskRef:
-          name: git-clone
-        workspaces:
-          - name: output
-            workspace: source
-        params:
-          - name: depth
-            value: "0"
-          - name: url
-            value: $(params.repo_url)
-          - name: revision
-            value: $(params.revision)
       - name: test-task
-        runAfter:
-          - fetch-repository
-        workspaces:
-          - name: source
-            workspace: source
         taskSpec:
           steps:
-            - name: pull
-              env:
-                - name: GITHUB_TOKEN
-                  valueFrom:
-                    secretKeyRef:
-                      name: "{{ git_auth_secret }}"
-                      key: "git-provider-token"
-              image: docker.io/goreleaser/goreleaser
-              workingDir: $(workspaces.source.path)
+            - name: test
+              image: registry.access.redhat.com/ubi9/ubi-micro
               script: |
-                git config --global --add safe.directory $(workspaces.source.path)
-                VERSION=$(git tag --sort=-v:refname | head -n1)
-                echo "VERSION: $VERSION"
-  workspaces:
-    - name: source
-      volumeClaimTemplate:
-        spec:
-          accessModes:
-            - ReadWriteOnce
-          resources:
-            requests:
-              storage: 3Gi
+                echo "this was the pull request {{ pull_request_number }}"
+                exit 0
