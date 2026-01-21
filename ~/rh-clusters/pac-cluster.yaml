@@ -1,0 +1,19 @@
+apiVersion: v1
+clusters:
+- cluster:
+    insecure-skip-tls-verify: true
+    server: https://api.paac.openshift-pipelines.devcluster.openshift.com:6443
+  name: api-paac-openshift-pipelines-devcluster-openshift-com:6443
+contexts:
+- context:
+    cluster: api-paac-openshift-pipelines-devcluster-openshift-com:6443
+    namespace: default
+    user: zakisk/api-paac-openshift-pipelines-devcluster-openshift-com:6443
+  name: default/api-paac-openshift-pipelines-devcluster-openshift-com:6443/zakisk
+current-context: default/api-paac-openshift-pipelines-devcluster-openshift-com:6443/zakisk
+kind: Config
+preferences: {}
+users:
+- name: zakisk/api-paac-openshift-pipelines-devcluster-openshift-com:6443
+  user:
+    token: sha256~F1SqAUdVGjw2JNti8x8rKrBwn_p59a1ysk3fSIDXo_Q
