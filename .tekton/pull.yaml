@@ -1,0 +1,18 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: "pull-plr"
+  annotations:
+    pipelinesascode.tekton.dev/on-cel-expression: event == "pull_request" && target_branch == "main"
+spec:
+  pipelineSpec:
+    tasks:
+      - name: test-task
+        taskSpec:
+          steps:
+            - name: test
+              image: registry.access.redhat.com/ubi9/ubi-micro
+              script: |
+                echo "this was the pull request {{ pull_request_number }}"
+                exit 0
