@@ -1,0 +1,21 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: "release-plr"
+  annotations:
+    # pipelinesascode.tekton.dev/on-target-branch: "[refs/tags/*]"
+    pipelinesascode.tekton.dev/on-cel-expression: event == "release" && target_branch.startsWith("refs/tags/")
+spec:
+  pipelineSpec:
+    tasks:
+      - name: task
+        displayName: "The Task name is Task"
+        taskSpec:
+          steps:
+            - name: task
+              image: registry.access.redhat.com/ubi10/ubi-micro
+              script: |
+                echo "i am released {{ git_tag }} with changelog {{ body.release.body }}"
+                sleep 10s
+                exit 0
