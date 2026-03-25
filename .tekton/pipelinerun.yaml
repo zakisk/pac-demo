@@ -1,0 +1,21 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: "plr-pr"
+  annotations:
+    pipelinesascode.tekton.dev/on-target-branch: "[main]"
+    pipelinesascode.tekton.dev/on-event: "[push]"
+spec:
+  pipelineSpec:
+    tasks:
+      - name: task
+        displayName: "The Task name is Task"
+        taskSpec:
+          steps:
+            - name: task
+              image: registry.access.redhat.com/ubi10/ubi-micro
+              script: |
+                echo "just some value"
+                sleep 10s
+                exit 0
