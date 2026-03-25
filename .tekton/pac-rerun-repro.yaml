@@ -1,0 +1,44 @@
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  name: pac-rerun-repro-on-push
+  annotations:
+    # Only push events to this test branch (mirrors a Konflux on-push build)
+    pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch == "test-re-run-plr"
+    pipelinesascode.tekton.dev/max-keep-runs: "20"
+spec:
+  # Same placeholders a Konflux build PipelineRun uses
+  params:
+    - name: git-url
+      value: '{{source_url}}'
+    - name: revision
+      value: '{{revision}}'
+  pipelineSpec:
+    params:
+      - name: git-url
+      - name: revision
+    tasks:
+      - name: clone-repository
+        params:
+          - name: url
+            value: $(params.git-url)
+          - name: revision
+            value: $(params.revision)
+        taskSpec:
+          params:
+            - name: url
+            - name: revision
+          steps:
+            - name: clone
+              image: docker.io/library/alpine:3.20
+              script: |
+                #!/bin/sh
+                set -e
+                echo "url param      = [$(params.url)]"
+                echo "revision param = [$(params.revision)]"
+                apk add --no-cache git >/dev/null
+                git init -q /tmp/src && cd /tmp/src
+                git fetch --depth=1 "$(params.url)" "$(params.revision)"
+                git checkout -q FETCH_HEAD
+                echo "clone OK: $(git log -1 --format='%H %s')"
+                exit 1
