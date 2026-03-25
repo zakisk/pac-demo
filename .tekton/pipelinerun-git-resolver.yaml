@@ -1,0 +1,38 @@
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  name: git-resolver-demo-run
+  annotations:
+    pipelinesascode.tekton.dev/on-target-branch: "[main]"
+    pipelinesascode.tekton.dev/on-event: "[pull_request]"
+    pipelinesascode.tekton.dev/task: "https://github.com/zakisk/pac-1/blob/main/task/git-clone.yaml"
+spec:
+  pipelineSpec:
+    tasks:
+      - name: fetch-and-execute-remote-task
+        taskRef:
+          name: git-clone
+        params:
+          - name: url
+            value: "https://github.com/octocat/Hello-World.git"
+          - name: output-path
+            value: "hello-world-data"
+          - name: "revision"
+            value: "main"
+        workspaces:
+          - name: output
+            workspace: shared-workspace
+          - name: basic-auth
+            workspace: basic-auth
+  workspaces:
+    - name: shared-workspace
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 1Gi
+    - name: basic-auth
+      secret:
+        secretName: "{{ git_auth_secret }}"
