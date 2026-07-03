@@ -1,0 +1,11 @@
+name: PR Target Workflow
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  identify-source:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print workflow source
+        run: echo "I am from main (pull_request_target - workflow definition always comes from the base branch)"
