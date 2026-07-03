@@ -9,3 +9,12 @@ jobs:
     steps:
       - name: Print workflow source
         run: echo "I am from second-base (pull_request - workflow definition comes from the PR branch)"
+      - name: Check secret access
+        env:
+          MY_SECRET: ${{ secrets.MY_SECRET }}
+        run: |
+          if [ -z "$MY_SECRET" ]; then
+            echo "SECRET is NOT available (pull_request event does not expose secrets for fork PRs)"
+          else
+            echo "SECRET is available"
+          fi
