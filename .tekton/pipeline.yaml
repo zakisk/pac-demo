@@ -1,0 +1,14 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: "sample-pipeline"
+spec:
+  tasks:
+    - name: task
+      displayName: "The Task name is Task"
+      taskSpec:
+        steps:
+          - name: task
+            image: registry.access.redhat.com/ubi9/ubi-micro
+            command: ["sleep", "40s"]
