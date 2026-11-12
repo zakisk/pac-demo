@@ -2,7 +2,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
-  name: "pipelinerun-qbsk"
+  name: "pipelinerun-wspz"
   annotations:
     pipelinesascode.tekton.dev/target-namespace: "pac-e2e-ns-k4qmp"
     pipelinesascode.tekton.dev/on-cel-expression: >-
@@ -16,3 +16,5 @@ spec:
             - name: task
               image: registry.access.redhat.com/ubi10/ubi-micro
               command: ["/bin/echo", "HELLOMOTO"]
+
+# just add 1 line to make it different
