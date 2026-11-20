@@ -1,0 +1,21 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: "on-comment-plr"
+  annotations:
+    # pipelinesascode.tekton.dev/on-target-branch: "[main]"
+    pipelinesascode.tekton.dev/on-comment: "^/cherry-pick"
+spec:
+  pipelineSpec:
+    tasks:
+      - name: task
+        displayName: "The Task name is Task"
+        taskSpec:
+          steps:
+            - name: task
+              image: registry.access.redhat.com/ubi10/ubi-micro
+              script: |
+                echo "{{ trigger_comment }}"
+                sleep 5s
+                exit 0
