@@ -1,0 +1,18 @@
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  generateName: issue-run-
+  annotations:
+    pipelinesascode.tekton.dev/on-event: "[issue]"
+    pipelinesascode.tekton.dev/on-target-branch: "[*]"
+spec:
+  pipelineSpec:
+    tasks:
+      - name: show-issue
+        taskSpec:
+          steps:
+            - name: print
+              image: registry.access.redhat.com/ubi9/ubi-minimal
+              script: |
+                sleep 60s
+                exit 0
