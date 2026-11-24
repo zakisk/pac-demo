@@ -1,0 +1,20 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: "bad-plr"
+  annotations:
+    pipelinesascode.tekton.dev/on-cel-expression: >- 
+      event == "pull_request" && "main" in [target_branch, stack_target_branch]
+spec:
+  pipelineSpec:
+    tasks:
+      - name: task
+        displayName: "The Task name is Task"
+        taskSpec:
+          steps:
+            - name: task
+              image: registry.access.redhat.com/ubi10/ubi-micro
+              script: |
+                echo "I am a stacked pull request at position {{ stack_position }} and targeting {{ stack_target_branch }}"
+                exit 0
