@@ -1,0 +1,12 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: "sample-pr"
+  annotations:
+    pipelinesascode.tekton.dev/on-target-branch: "[main]"
+    pipelinesascode.tekton.dev/on-event: "[pull_request]"
+    pipelinesascode.tekton.dev/pipeline: "https://github.com/zakisk/pac-1/blob/main/.tekton/pipeline.yaml"
+    pipelinesascode.tekton.dev/task: "https://github.com/zakisk/pac-1/blob/main/.tekton/task.yaml"
+spec:
+  pipelineRef:
+    name: sample-pipeline
